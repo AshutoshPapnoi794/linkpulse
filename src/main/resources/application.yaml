@@ -1,0 +1,33 @@
+spring:
+
+  application:
+    name: linkpulse
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/linkpulse}
+    username: ${DB_USERNAME:linkpulse}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: never
