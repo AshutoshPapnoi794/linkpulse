@@ -31,3 +31,9 @@ management:
   endpoint:
     health:
       show-details: never
+
+security:
+  jwt:
+    secret: ${JWT_SECRET_BASE64}
+    issuer: linkpulse
+    access-token-ttl-seconds: 900
