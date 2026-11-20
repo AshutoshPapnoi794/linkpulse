@@ -37,3 +37,6 @@ security:
     secret: ${JWT_SECRET_BASE64}
     issuer: linkpulse
     access-token-ttl-seconds: 900
+
+app:
+  base-url: ${APP_BASE_URL:http://localhost:8080}

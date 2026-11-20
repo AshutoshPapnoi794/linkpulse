@@ -2,6 +2,10 @@ package com.linkpulse.common.exception;
 
 import com.linkpulse.auth.exception.EmailAlreadyRegisteredException;
 import com.linkpulse.auth.exception.PasswordTooLongException;
+import com.linkpulse.url.exception.AliasAlreadyTakenException;
+import com.linkpulse.url.exception.ReservedAliasException;
+import com.linkpulse.url.exception.ShortCodeGenerationException;
+import com.linkpulse.url.exception.UrlNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -75,4 +79,77 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problem);
     }
+
+
+    @ExceptionHandler({
+            AliasAlreadyTakenException.class,
+            ReservedAliasException.class
+    })
+    public ResponseEntity<ProblemDetail> handleUrlConflict(
+            RuntimeException exception
+    ) {
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.CONFLICT,
+                exception.getMessage()
+        );
+
+        problem.setTitle("URL conflict");
+
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(problem);
+    }
+
+    @ExceptionHandler(UrlNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleUrlNotFound(
+            UrlNotFoundException exception
+    ) {
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.NOT_FOUND,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Resource not found");
+
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(problem);
+    }
+
+    @ExceptionHandler(ShortCodeGenerationException.class)
+    public ResponseEntity<ProblemDetail> handleShortCodeFailure(
+            ShortCodeGenerationException exception
+    ) {
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.SERVICE_UNAVAILABLE,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Short code generation unavailable");
+
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .body(problem);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ProblemDetail> handleIllegalArgument(
+            IllegalArgumentException exception
+    ) {
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                exception.getMessage()
+        );
+
+        problem.setTitle("Invalid request");
+
+        return ResponseEntity
+                .badRequest()
+                .body(problem);
+    }
+
 }
