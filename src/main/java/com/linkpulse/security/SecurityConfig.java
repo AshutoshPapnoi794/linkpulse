@@ -67,6 +67,10 @@ public class SecurityConfig {
                                 "/api/v1/auth/login").permitAll()
                         .requestMatchers(
                                 HttpMethod.GET,
+                                "/{shortCode}"
+                        ).permitAll()
+                        .requestMatchers(
+                                HttpMethod.GET,
                                 "/actuator/health"
                         ).permitAll()
                         .anyRequest().authenticated()

@@ -55,10 +55,18 @@ class UrlIntegrationTest {
         );
     }
 
+
     @Test
     void shouldCreateCustomAliasAndListUrls() throws Exception {
 
         String token = registerAndGetToken();
+
+        String alias = (
+                "X" + UUID.randomUUID()
+                        .toString()
+                        .replace("-", "")
+                        .substring(0, 7)
+        ).toLowerCase(java.util.Locale.ROOT);
 
         HttpResponse<String> created = request(
                 "POST",
@@ -67,17 +75,17 @@ class UrlIntegrationTest {
                         "originalUrl",
                         "https://github.com/spring-projects/spring-boot",
                         "customAlias",
-                        "Spring-Boot"
+                        alias.toUpperCase(java.util.Locale.ROOT)
                 ),
                 token
         );
 
-        assertEquals(201, created.statusCode());
+        assertEquals(201, created.statusCode(), created.body());
 
         JsonNode body = objectMapper.readTree(created.body());
 
         assertEquals(
-                "spring-boot",
+                alias,
                 body.path("shortCode").asText()
         );
 
@@ -87,13 +95,11 @@ class UrlIntegrationTest {
         );
 
         assertTrue(
-                body.path("shortUrl").asText()
-                        .endsWith("/spring-boot")
+                body.path("shortUrl").asText().endsWith("/" + alias)
         );
 
         assertTrue(body.path("active").asBoolean());
 
-        // Verify dashboard listing.
         HttpResponse<String> listing = request(
                 "GET",
                 "/api/v1/urls?page=0&size=10",
@@ -112,7 +118,7 @@ class UrlIntegrationTest {
         );
 
         assertEquals(
-                "spring-boot",
+                alias,
                 listingBody.path("content")
                         .get(0)
                         .path("shortCode")

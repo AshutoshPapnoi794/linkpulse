@@ -2,10 +2,7 @@ package com.linkpulse.common.exception;
 
 import com.linkpulse.auth.exception.EmailAlreadyRegisteredException;
 import com.linkpulse.auth.exception.PasswordTooLongException;
-import com.linkpulse.url.exception.AliasAlreadyTakenException;
-import com.linkpulse.url.exception.ReservedAliasException;
-import com.linkpulse.url.exception.ShortCodeGenerationException;
-import com.linkpulse.url.exception.UrlNotFoundException;
+import com.linkpulse.url.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -149,6 +146,23 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity
                 .badRequest()
+                .body(problem);
+    }
+
+    @ExceptionHandler(UrlUnavailableException.class)
+    public ResponseEntity<ProblemDetail> handleUrlUnavailable(
+            UrlUnavailableException exception
+    ) {
+
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                HttpStatus.GONE,
+                exception.getMessage()
+        );
+
+        problem.setTitle("URL no longer available");
+
+        return ResponseEntity
+                .status(HttpStatus.GONE)
                 .body(problem);
     }
 

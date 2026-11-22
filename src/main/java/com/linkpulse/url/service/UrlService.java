@@ -43,13 +43,15 @@ public class UrlService {
     private final ShortCodeGenerator shortCodeGenerator;
     private final OriginalUrlValidator originalUrlValidator;
     private final ShortUrlCreationAttemptService creationAttemptService;
+    private final UrlCacheService urlCacheService;
     private final String baseUrl;
 
-    public UrlService(ShortUrlRepository shortUrlRepository, ShortCodeGenerator shortCodeGenerator, OriginalUrlValidator originalUrlValidator, ShortUrlCreationAttemptService creationAttemptService, @Value("${app.base-url:http://localhost:8080}") String baseUrl) {
+    public UrlService(ShortUrlRepository shortUrlRepository, ShortCodeGenerator shortCodeGenerator, OriginalUrlValidator originalUrlValidator, ShortUrlCreationAttemptService creationAttemptService, UrlCacheService urlCacheService, @Value("${app.base-url:http://localhost:8080}") String baseUrl) {
         this.shortUrlRepository = shortUrlRepository;
         this.shortCodeGenerator = shortCodeGenerator;
         this.originalUrlValidator = originalUrlValidator;
         this.creationAttemptService = creationAttemptService;
+        this.urlCacheService = urlCacheService;
         this.baseUrl = baseUrl.replaceAll("/+$", "");
     }
 
@@ -171,7 +173,9 @@ public class UrlService {
                 .orElseThrow(UrlNotFoundException::new);
 
         shortUrl.updateExpiration(request.expiresAt());
-        return toResponse(shortUrlRepository.save(shortUrl));
+        ShortUrl saved = shortUrlRepository.save(shortUrl);
+        urlCacheService.evictAfterCommit(saved.getShortCode());
+        return toResponse(saved);
     }
 
     @Transactional
@@ -182,6 +186,7 @@ public class UrlService {
 
         shortUrl.deactivate();
         shortUrlRepository.save(shortUrl);
+        urlCacheService.evictAfterCommit(shortUrl.getShortCode());
     }
 
     private ShortUrlResponse toResponse(ShortUrl url) {

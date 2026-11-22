@@ -19,6 +19,13 @@ spring:
     enabled: true
     locations: classpath:db/migration
 
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      connect-timeout: 2s
+      timeout: 2s
+
 server:
   port: 8080
 
@@ -40,3 +47,5 @@ security:
 
 app:
   base-url: ${APP_BASE_URL:http://localhost:8080}
+  cache:
+    redirect-ttl: 5m
