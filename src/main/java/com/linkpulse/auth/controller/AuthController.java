@@ -5,6 +5,7 @@ import com.linkpulse.auth.dto.LoginRequest;
 import com.linkpulse.auth.dto.RegisterRequest;
 import com.linkpulse.auth.dto.UserSummary;
 import com.linkpulse.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,7 @@ public class AuthController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @SecurityRequirement(name = "bearerAuth")
     @GetMapping("/me")
     public ResponseEntity<UserSummary> currentUser(@AuthenticationPrincipal Jwt jwt){
         UserSummary user = new UserSummary(
