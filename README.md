@@ -17,6 +17,40 @@ LinkPulse is a RESTful URL shortening platform built using Java and Spring Boot.
 - **API documentation:** Interactive Swagger UI documentation.
 - **Containerization:** Run the application, PostgreSQL, and Redis using Docker Compose.
 
+## Screenshots
+
+### Dashboard
+
+<p align="center">
+  <img src="docs/screenshots/dashboard.png" alt="LinkPulse dashboard" width="100%">
+</p>
+
+Overview of shortened links, click statistics, and link management.
+
+### Create a short link
+
+<p align="center">
+  <img src="docs/screenshots/create-link.png" alt="Create shortened URL" width="85%">
+</p>
+
+Create shortened URLs with optional custom aliases and expiration dates.
+
+### Analytics
+
+<p align="center">
+  <img src="docs/screenshots/analytics.png" alt="Link analytics" width="100%">
+</p>
+
+Monitor click activity and daily engagement for individual shortened URLs.
+
+### API documentation
+
+<p align="center">
+  <img src="docs/screenshots/swagger.png" alt="LinkPulse Swagger API documentation" width="100%">
+</p>
+
+Explore and test REST endpoints through the interactive OpenAPI documentation.
+
 ## Technology Stack
 
 | Category | Technologies |
