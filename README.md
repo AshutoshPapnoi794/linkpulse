@@ -69,28 +69,16 @@ Explore and test REST endpoints through the interactive OpenAPI documentation.
 
 ## Architecture
 
-LinkPulse follows a modular monolithic architecture.
+LinkPulse follows a modular monolithic architecture built
+with Spring Boot, PostgreSQL and Redis.
 
-```text
-                    API CLIENT
-                        |
-                        v
-                 SPRING BOOT API
-                        |
-          +-------------+-------------+
-          |             |             |
-          v             v             v
-       AUTH           URL         ANALYTICS
-       MODULE        MODULE        MODULE
-          |             |             |
-          +-------------+-------------+
-                        |
-              +---------+---------+
-              |                   |
-              v                   v
-          PostgreSQL             Redis
-          Persistent DB          Cache
-```
+<p align="center">
+  <img
+    src="docs/screenshots/architecture.png"
+    alt="LinkPulse System Architecture"
+    width="100%"
+  />
+</p>
 
 ### URL Redirection Flow
 
