@@ -56,7 +56,7 @@ public class OriginalUrlValidator {
                 );
             }
 
-            if (uri.getPort()>64435){
+            if (uri.getPort()>65535){
                 throw new IllegalArgumentException(
                         "URL contains an invalid port"
                 );

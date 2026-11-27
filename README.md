@@ -133,7 +133,7 @@ Java and Maven do not need to be installed separately when running the complete 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/linkpulse.git
+git clone https://github.com/ashutoshpapnoi794/linkpulse.git
 cd linkpulse
 ```
 

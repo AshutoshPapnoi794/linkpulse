@@ -70,6 +70,12 @@ public class SecurityConfig {
                                 "/{shortCode}"
                         ).permitAll()
                         .requestMatchers(
+                                "/",
+                                "/index.html",
+                                "/styles.css",
+                                "/app.js"
+                        ).permitAll()
+                        .requestMatchers(
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",
                                 "/v3/api-docs",
