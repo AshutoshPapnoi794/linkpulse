@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f6f3">
+  <meta name="description" content="LinkPulse URL shortening and analytics workspace">
+  <title>LinkPulse · Link workspace</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <section id="authView" class="auth-view" aria-labelledby="authHeading">
+      <header class="site-brand auth-brand">
+        <span class="brand-mark" aria-hidden="true">L</span>
+        <span>linkpulse</span>
+      </header>
+
+      <div class="auth-layout">
+        <div class="auth-intro">
+          <p class="eyebrow">A little less link, a little more clarity</p>
+          <h1>Make every link<br><span>go further.</span></h1>
+          <p class="intro-copy">Create short links, keep them organised, and see how they're performing. No clutter, just the essentials.</p>
+          <div class="intro-note">
+            <span class="note-dot"></span>
+            Simple links. Useful insights.
+          </div>
+        </div>
+
+        <div class="auth-card">
+          <div class="auth-card-heading">
+            <p class="eyebrow" id="authEyebrow">WELCOME BACK</p>
+            <h2 id="authHeading">Sign in to LinkPulse</h2>
+            <p id="authSubheading">Your links are right where you left them.</p>
+          </div>
+
+          <div class="auth-tabs" role="tablist" aria-label="Authentication options">
+            <button class="auth-tab is-active" id="loginTab" type="button" role="tab" aria-selected="true" data-auth-mode="login">Sign in</button>
+            <button class="auth-tab" id="registerTab" type="button" role="tab" aria-selected="false" data-auth-mode="register">Create account</button>
+          </div>
+
+          <form id="loginForm" class="auth-form">
+            <label for="loginEmail">Email address</label>
+            <input id="loginEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="320">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" name="password" type="password" autocomplete="current-password" placeholder="Your password" required maxlength="72">
+            <button class="button button-primary button-full" type="submit">Sign in <span aria-hidden="true">→</span></button>
+          </form>
+
+          <form id="registerForm" class="auth-form" hidden>
+            <label for="registerEmail">Email address</label>
+            <input id="registerEmail" name="email" type="email" autocomplete="email" placeholder="you@example.com" required maxlength="320">
+            <label for="registerPassword">Password</label>
+            <input id="registerPassword" name="password" type="password" autocomplete="new-password" placeholder="At least 12 characters" required minlength="12" maxlength="72">
+            <p class="field-hint">Use at least 12 characters.</p>
+            <button class="button button-primary button-full" type="submit">Create account <span aria-hidden="true">→</span></button>
+          </form>
+          <p class="auth-footnote">By continuing, you agree to use LinkPulse responsibly.</p>
+        </div>
+      </div>
+      <footer class="page-footer">LinkPulse <span>·</span> Your links, in good order.</footer>
+    </section>
+
+    <section id="dashboardView" class="dashboard-view" hidden>
+      <header class="topbar">
+        <a class="site-brand" href="/" aria-label="LinkPulse home">
+          <span class="brand-mark" aria-hidden="true">L</span>
+          <span>linkpulse</span>
+        </a>
+        <div class="topbar-right">
+          <span class="workspace-label">LINK WORKSPACE</span>
+          <span class="user-avatar" id="userAvatar" aria-hidden="true">U</span>
+          <span class="user-email" id="userEmail">user@example.com</span>
+          <button class="button button-quiet button-small" id="logoutButton" type="button">Sign out</button>
+        </div>
+      </header>
+
+      <main class="dashboard-main">
+        <div class="page-heading">
+          <div>
+            <p class="eyebrow">YOUR WORKSPACE</p>
+            <h1>Your links, <span>in one place.</span></h1>
+            <p class="page-description">Shorten a link or take a look at what you've already shared.</p>
+          </div>
+          <div class="date-stamp" id="todayLabel"></div>
+        </div>
+
+        <section class="create-card" aria-labelledby="createHeading">
+          <div class="section-heading create-heading">
+            <div class="section-icon" aria-hidden="true">↗</div>
+            <div>
+              <h2 id="createHeading">Create a short link</h2>
+              <p>Paste a long URL. We'll make it easier to share.</p>
+            </div>
+          </div>
+          <form id="createForm" class="create-form">
+            <div class="url-input-wrap">
+              <label for="originalUrl">Destination URL</label>
+              <input id="originalUrl" name="originalUrl" type="url" inputmode="url" placeholder="https://example.com/your/long/link" required maxlength="2048">
+            </div>
+            <div class="create-options">
+              <div class="option-field">
+                <label for="customAlias">Custom alias <span>(optional)</span></label>
+                <div class="alias-input-wrap">
+                  <span aria-hidden="true">/</span>
+                  <input id="customAlias" name="customAlias" type="text" placeholder="my-link" minlength="3" maxlength="16" pattern="[A-Za-z0-9_-]{3,16}" autocomplete="off">
+                </div>
+              </div>
+              <div class="option-field expiration-field">
+                <label for="expiresAt">Expiration <span>(optional)</span></label>
+                <input id="expiresAt" name="expiresAt" type="datetime-local">
+              </div>
+              <button class="button button-primary create-button" type="submit"><span>Create link</span><span aria-hidden="true">→</span></button>
+            </div>
+            <p class="form-hint">Aliases can use 3–16 letters, numbers, underscores or hyphens.</p>
+          </form>
+        </section>
+
+        <section class="stats-grid" aria-label="Link overview">
+          <article class="stat-card">
+            <div class="stat-label">TOTAL LINKS <span class="stat-icon">↗</span></div>
+            <div class="stat-value" id="totalLinks">—</div>
+            <div class="stat-foot">Across your workspace</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">ACTIVE ON THIS PAGE <span class="stat-icon">●</span></div>
+            <div class="stat-value" id="activeLinks">—</div>
+            <div class="stat-foot">Not disabled or expired</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-label">CLICKS ON THIS PAGE <span class="stat-icon">⌁</span></div>
+            <div class="stat-value" id="totalClicks">—</div>
+            <div class="stat-foot">Combined clicks for listed links</div>
+          </article>
+        </section>
+
+        <section class="links-card" aria-labelledby="linksHeading">
+          <div class="links-header">
+            <div>
+              <h2 id="linksHeading">Your links</h2>
+              <p id="linksSubheading">A tidy list of everything you've shortened.</p>
+            </div>
+            <div class="list-tools">
+              <label class="search-box" for="linkSearch">
+                <span aria-hidden="true">⌕</span>
+                <input id="linkSearch" type="search" placeholder="Search links" autocomplete="off">
+              </label>
+              <button class="button button-outline button-small" id="refreshButton" type="button"><span aria-hidden="true">↻</span> Refresh</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table class="links-table">
+              <thead>
+                <tr>
+                  <th scope="col">SHORT LINK</th>
+                  <th scope="col">DESTINATION</th>
+                  <th scope="col">CLICKS</th>
+                  <th scope="col">STATUS</th>
+                  <th scope="col">CREATED</th>
+                  <th scope="col"><span class="sr-only">Actions</span></th>
+                </tr>
+              </thead>
+              <tbody id="linksTableBody">
+                <tr><td colspan="6" class="table-placeholder">Loading your links…</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-icon" aria-hidden="true">↗</div>
+            <h3>No links here yet</h3>
+            <p>Create your first short link above. It'll show up here.</p>
+          </div>
+          <div class="table-footer">
+            <span id="paginationInfo">—</span>
+            <div class="pagination-controls">
+              <button class="button button-outline button-small" id="previousPage" type="button" disabled>← Previous</button>
+              <button class="button button-outline button-small" id="nextPage" type="button" disabled>Next →</button>
+            </div>
+          </div>
+        </section>
+      </main>
+      <footer class="dashboard-footer">Made for links that have somewhere to go. <span>LinkPulse</span></footer>
+    </section>
+  </div>
+
+  <dialog id="analyticsDialog" class="analytics-dialog">
+    <div class="dialog-header">
+      <div>
+        <p class="eyebrow">LINK PERFORMANCE</p>
+        <h2 id="analyticsTitle">Link analytics</h2>
+        <p id="analyticsSubtitle" class="dialog-subtitle"></p>
+      </div>
+      <button class="icon-button" id="closeAnalytics" type="button" aria-label="Close analytics">×</button>
+    </div>
+    <div class="analytics-total">
+      <span>Total clicks</span>
+      <strong id="analyticsTotal">—</strong>
+      <span class="analytics-period" id="analyticsPeriod">Last 7 days</span>
+    </div>
+    <div class="chart-heading">DAILY CLICKS</div>
+    <div class="daily-chart" id="dailyChart"></div>
+    <div class="dialog-footer">
+      <span>Times are grouped by UTC date.</span>
+      <button class="button button-outline button-small" id="closeAnalyticsFooter" type="button">Close</button>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
